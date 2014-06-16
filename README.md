@@ -1,7 +1,6 @@
-Boundary SDK Database
+Boundary Service Database
 =====================
-
-
+Component for storing information about services to be monitored
 
 Pre-Install
 ----------
@@ -13,3 +12,4 @@ Pre-Install
 3) Add user "boundary" to the database"
 
 4) Grant permissions to the boundary database to besdk
+
