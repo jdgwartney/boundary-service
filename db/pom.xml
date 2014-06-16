@@ -3,10 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.boundary</groupId>
-	<artifactId>boundary-event-sdk-db</artifactId>
+	<artifactId>boundary-service-db</artifactId>
 	<version>00.00.01</version>
 	<packaging>jar</packaging>
-	<name>boundary-event-sdk-db</name>
+	<name>boundary-service-db</name>
 	<organization>
 		<name>Boundary Inc.</name>
 		<url>http://boundary.com</url>
