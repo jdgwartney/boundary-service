@@ -4,28 +4,23 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
 
+        <changeSet author="dgwartney" id="services-1" runOnChange="true">
+                <comment>Contains exported DDL from MySQL Workbench</comment>
+                <sqlFile dbms="mysql" encoding="utf8" endDelimiter=";"
+                        path="schema.sql" relativeToChangelogFile="true"
+                        splitStatements="true" stripComments="true" />
+        </changeSet>
+
+
 	<include file="types.xml" relativeToChangelogFile="true" />
 	<include file="domains.xml" relativeToChangelogFile="true" />
-	<!-- <include file="../../../../src/main/resources/config.xml" relativeToChangelogFile="true" />-->
-	<!-- <include file="../../../../src/main/resources/init.xml" relativeToChangelogFile="true" />-->
 	
 	<include file="tables.xml" relativeToChangelogFile="true"/>
+
 	<!-- <include file="../../../../src/main/resources/tag.xml" relativeToChangelogFile="true"/> -->
-<!--
-	<changeSet author="dgwartney" id="zdb-1" runOnChange="true">
-		<comment>Contains export DDL from MySQL Workbench</comment>
-		<sqlFile dbms="mysql" encoding="utf8" endDelimiter=";"
-			path="metadata_schema.sql" relativeToChangelogFile="true"
-			splitStatements="true" stripComments="true" />
-	</changeSet>
--->
 
 	<!-- <include file="procedures.xml" relativeToChangelogFile="true" /> -->
 	<!-- <include file="functions.xml" relativeToChangelogFile="true" /> -->
 	<!-- <include file="views.xml" relativeToChangelogFile="true" /> -->
-	
-	
-	
-
 
 </databaseChangeLog>

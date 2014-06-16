@@ -14,6 +14,6 @@
 
   <!-- SQLITE -->
   <property name="t_name" value="${t_varchar_64}" dbms="sqlite"/>
-  <property name="t_reference" value="${t_large_integer}" dbms="sqlite"/>
+  <property name="t_reference" value="${t_integer}" dbms="sqlite"/>
 
 </databaseChangeLog>

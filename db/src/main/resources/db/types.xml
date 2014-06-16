@@ -29,23 +29,23 @@
   <property name="t_varchar_4096" value="VARCHAR(4096) BINARY" dbms="mysql"/>
 
   <!-- SQLITE -->
-  <property name="t_boolean" value="CHAR(1)" dbms="mysql"/>
-  <property name="t_date" value="DATE" dbms="mysql"/>
-  <property name="t_datetime" value="DATE" dbms="mysql"/>
-  <property name="t_double" value="DOUBLE" dbms="mysql"/>
-  <property name="t_integer" value="INTEGER" dbms="mysql"/>
-  <property name="t_large_integer" value="BIGINT" dbms="mysql"/>
-  <property name="t_timestamp" value="TIMESTAMP" dbms="mysql"/>
+  <property name="t_boolean" value="CHAR(1)" dbms="sqlite"/>
+  <property name="t_date" value="DATE" dbms="sqlite"/>
+  <property name="t_datetime" value="DATE" dbms="sqlite"/>
+  <property name="t_double" value="DOUBLE" dbms="sqlite"/>
+  <property name="t_integer" value="INTEGER" dbms="sqlite"/>
+  <property name="t_large_integer" value="BIGINT" dbms="sqlite"/>
+  <property name="t_timestamp" value="TIMESTAMP" dbms="sqlite"/>
 
-  <property name="t_varchar_8"   value="VARCHAR(8) BINARY"   dbms="mysql"/>
-  <property name="t_varchar_16"  value="VARCHAR(16) BINARY"  dbms="mysql"/>
-  <property name="t_varchar_32"  value="VARCHAR(32) BINARY"  dbms="mysql"/>
-  <property name="t_varchar_64"  value="VARCHAR(64) BINARY"  dbms="mysql"/>
-  <property name="t_varchar_128" value="VARCHAR(128) BINARY" dbms="mysql"/>
-  <property name="t_varchar_256" value="VARCHAR(256) BINARY" dbms="mysql"/>
-  <property name="t_varchar_512" value="VARCHAR(512) BINARY" dbms="mysql"/>
-  <property name="t_varchar_1024" value="VARCHAR(1024) BINARY" dbms="mysql"/>
-  <property name="t_varchar_2048" value="VARCHAR(2048) BINARY" dbms="mysql"/>
-  <property name="t_varchar_4096" value="VARCHAR(4096) BINARY" dbms="mysql"/>
+  <property name="t_varchar_8"   value="VARCHAR(8)"   dbms="sqlite"/>
+  <property name="t_varchar_16"  value="VARCHAR(16)"  dbms="sqlite"/>
+  <property name="t_varchar_32"  value="VARCHAR(32)"  dbms="sqlite"/>
+  <property name="t_varchar_64"  value="VARCHAR(64)"  dbms="sqlite"/>
+  <property name="t_varchar_128" value="VARCHAR(128)" dbms="sqlite"/>
+  <property name="t_varchar_256" value="VARCHAR(256)" dbms="sqlite"/>
+  <property name="t_varchar_512" value="VARCHAR(512)" dbms="sqlite"/>
+  <property name="t_varchar_1024" value="VARCHAR(1024)" dbms="sqlite"/>
+  <property name="t_varchar_2048" value="VARCHAR(2048)" dbms="sqlite"/>
+  <property name="t_varchar_4096" value="VARCHAR(4096)" dbms="sqlite"/>
 
 </databaseChangeLog>

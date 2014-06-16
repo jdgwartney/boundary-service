@@ -17,6 +17,7 @@
 		<junit-version>4.11</junit-version>
 		<liquibase-maven-plugin-version>3.2.0</liquibase-maven-plugin-version>
 		<sqlite-version>3.7.15-M1</sqlite-version>
+		<liquibase-property-file>src/main/resources/db/mysql.properties</liquibase-property-file>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -63,16 +64,8 @@
 				<configuration>
 					<changeLogFile>src/main/resources/db/db.changelog.xml</changeLogFile>
 					<propertyFileWillOverride>true</propertyFileWillOverride>
-					<propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
+					<propertyFile>${liquibase-property-file}</propertyFile>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>update</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
