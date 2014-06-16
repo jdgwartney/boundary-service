@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  <!-- Define our application types -->
+
+  <!-- MYSQL -->
+  <property name="t_name" value="${t_varchar_64}" dbms="mysql"/>
+  <property name="t_reference" value="${t_large_integer}" dbms="mysql"/>
+
+  <!-- SQLITE -->
+  <property name="t_name" value="${t_varchar_64}" dbms="sqlite"/>
+  <property name="t_reference" value="${t_large_integer}" dbms="sqlite"/>
+
+</databaseChangeLog>

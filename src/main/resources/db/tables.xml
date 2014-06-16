@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet author="boundary" id="boundary-tables-1">
+	<comment>This table identifies the services to be monitored.</comment>
+        <createTable tableName="t_service">
+            <column autoIncrement="true" name="id" remarks="Unique row identifier" type="${t_reference}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" remarks="Name of the service" type="${t_name}"/>
+        </createTable>
+    </changeSet>	
+</databaseChangeLog>
