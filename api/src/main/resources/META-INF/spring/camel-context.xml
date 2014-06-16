@@ -8,6 +8,9 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+
+  <bean id="service" class="
+
   <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
     <!-- here is a sample which processes the input files
          (leaving them in place - see the 'noop' flag)
@@ -26,6 +29,12 @@
         </camel:otherwise>
       </camel:choice>
     </camel:route>
-  </camel:camelContext>
+
+    <route>
+      <from uri="jetty:http://localhost:8010/services")>
+      <bean ref="service" method="handleRequest"/>
+      <to uri="stream:out"/>
+    </route>
+  </camelContext>
 
 </beans>
