@@ -5,17 +5,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring
+       http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+<bean id="service" class="com.boundary.sdk.service.ServiceRequest"/>
 
-  <bean id="service" class="
+<bean id="mysql-data" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/besdk" />
+		<property name="username" value="boundary" />
+		<property name="password" value="boundary" />
+</bean>
 
-  <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
-    <!-- here is a sample which processes the input files
+<bean id="mysql-data" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/besdk" />
+</bean>
+
+<camel:camelContext xmlns="http://camel.apache.org/schema/spring">
+<!--     here is a sample which processes the input files
          (leaving them in place - see the 'noop' flag)
          then performs content based routing on the message using XPath -->
-    <camel:route>
+      <camel:route>
       <camel:from uri="file:src/data?noop=true"/>
       <camel:choice>
         <camel:when>
@@ -29,12 +42,24 @@
         </camel:otherwise>
       </camel:choice>
     </camel:route>
-
-    <route>
-      <from uri="jetty:http://localhost:8010/services")>
-      <bean ref="service" method="handleRequest"/>
+    
+    <route id="service-db" startupOrder="100">
+      <from uri="jetty:http://localhost:8010/services"/>
+      <process ref="service"/>
       <to uri="stream:out"/>
     </route>
-  </camelContext>
+    
+    <route id="service-db-access" startupOrder="200">
+    	<from uri="direct:query-in"/>
+    	<to uri="jdbc:data?outputType=SelectOne"/>
+    	<log message="${headers}"/>
+    	<to uri="mock:query-out"/>
+    	<marshal>
+    		<camel:string/>
+    	</marshal>
+    	<to uri="stream:out"/>
+    </route>
+    
+ </camel:camelContext>
 
 </beans>
