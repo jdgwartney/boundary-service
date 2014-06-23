@@ -49,10 +49,10 @@ public class ServiceDatabaseTest extends CamelSpringTestSupport  {
 	}
 		
 	@Test
-	public void testAggregate() throws InterruptedException {
+	public void testDatabase() throws InterruptedException {
 		MockEndpoint endPoint = getMockEndpoint("mock:query-out");
 		endPoint.expectedMinimumMessageCount(1);
-		String sql = "select count(*) from t_service;";
+		String sql = "select * from v_services;";
 		
 		template.sendBody("direct:query-in",sql);
 		

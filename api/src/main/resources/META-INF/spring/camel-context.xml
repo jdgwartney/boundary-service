@@ -14,34 +14,13 @@
 
 <bean id="mysql-data" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/besdk" />
+		<property name="url" value="jdbc:mysql://localhost:3306/services" />
 		<property name="username" value="boundary" />
 		<property name="password" value="boundary" />
 </bean>
 
-<bean id="mysql-data" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/besdk" />
-</bean>
 
 <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
-<!--     here is a sample which processes the input files
-         (leaving them in place - see the 'noop' flag)
-         then performs content based routing on the message using XPath -->
-      <camel:route>
-      <camel:from uri="file:src/data?noop=true"/>
-      <camel:choice>
-        <camel:when>
-          <camel:xpath>/person/city = 'London'</camel:xpath>
-          <camel:log message="UK message"/>
-          <camel:to uri="file:target/messages/uk"/>
-        </camel:when>
-        <camel:otherwise>
-          <camel:log message="Other message"/>
-          <camel:to uri="file:target/messages/others"/>
-        </camel:otherwise>
-      </camel:choice>
-    </camel:route>
     
     <route id="service-db" startupOrder="100">
       <from uri="jetty:http://localhost:8010/services"/>
@@ -51,7 +30,7 @@
     
     <route id="service-db-access" startupOrder="200">
     	<from uri="direct:query-in"/>
-    	<to uri="jdbc:data?outputType=SelectOne"/>
+    	<to uri="jdbc:mysql-data?outputType=SelectList"/>
     	<log message="${headers}"/>
     	<to uri="mock:query-out"/>
     	<marshal>
