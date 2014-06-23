@@ -11,7 +11,7 @@
     <modules>
         <module>boundary-service-db</module>
         <module>boundary-service-api</module>
-</modules>
+    </modules>
     <build>
         <pluginManagement>
             <plugins>
@@ -26,4 +26,4 @@
             </plugins>
         </pluginManagement>
     </build>
-<project>
+</project>
