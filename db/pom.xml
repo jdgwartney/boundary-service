@@ -13,11 +13,13 @@
 	</organization>
   	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 		<mysql-connector-java-version>5.1.31</mysql-connector-java-version>
 		<junit-version>4.11</junit-version>
 		<liquibase-maven-plugin-version>3.2.0</liquibase-maven-plugin-version>
 		<sqlite-version>3.7.15-M1</sqlite-version>
 		<liquibase-property-file>src/main/resources/db/mysql.properties</liquibase-property-file>
+		<rpm-maven-plugin-version>2.0.1</rpm-maven-plugin-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -65,6 +67,67 @@
 					<changeLogFile>src/main/resources/db/db.changelog.xml</changeLogFile>
 					<propertyFileWillOverride>true</propertyFileWillOverride>
 					<propertyFile>${liquibase-property-file}</propertyFile>
+				</configuration>
+			</plugin>
+			<plugin>
+                                <groupId>org.codehaus.mojo</groupId>
+                                <artifactId>rpm-maven-plugin</artifactId>
+                                <version>${rpm-maven-plugin-version}</version>
+<!-- Disable creation of RPM
+                                <executions>
+                                        <execution>
+                                        <id>generate-rpm</id>
+                                        <goals>
+                                                <goal>rpm</goal>
+                                        </goals>
+                                        </execution>
+                                </executions>
+-->
+				<configuration>
+                                        <license> Apache License Version 2.0, January 2004</license>
+                                        <distribution>Boundary,Inc 2014</distribution>
+                                        <group>Application/Database</group>
+                                        <needarch>false</needarch>
+<!-- TBD: Find a suitable icon
+                                        <icon>src/main/resources/icon.gif</icon>
+-->
+                                        <packager>Boundary, Inc.</packager>
+<!--
+                                        <prefix>/opt/boundary</prefix>
+-->
+<!--
+                                        <changelogFile>src/changelog</changelogFile>
+-->
+
+                                        <defineStatements>
+                                                <defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+                                        </defineStatements>
+                                        <mappings>
+                                                <mapping>
+                                                        <directory>${boundary-sdk-rpm-bin-dir}</directory>
+                                                        <directoryIncluded>false</directoryIncluded>
+                                                        <filemode>755</filemode>
+                                                        <username>${boundary-sdk-rpm-user-name}</username>
+                                                        <groupname>${boundary-sdk-rpm-group-name}</groupname>
+                                                        <sources>
+                                                                <source>
+                                                                        <location>src/main/scripts</location>
+                                                                        <includes>
+                                                                                <include>bmibc</include>
+                                                                                <include>send-v1-trap</include>
+                                                                                <include>send-v2c-trap</include>
+                                                                                <include>send-syslog</include>
+                                                                        </includes>
+                                                                </source>
+                                                                <source>
+                                                                        <location>src/native/unix</location>
+                                                                        <includes>
+                                                                                <include>jsvc</include>
+                                                                        </includes>
+                                                                </source>
+                                                        </sources>
+                                               </mapping>
+					</mappings>
 				</configuration>
 			</plugin>
 		</plugins>
