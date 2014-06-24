@@ -32,7 +32,7 @@ INSERT INTO t_service_test_type(id,name,table_name) VALUES(NULL,"ping","t_ping_c
 SET @ping_test = LAST_INSERT_ID();
 INSERT INTO t_service_test_type(id,name,table_name) VALUES(NULL,"port","t_port_config");
 SET @port_test = LAST_INSERT_ID();
-INSERT INTO t_service_test_type(id,name,table_name) VALUES(NULL,"ssh","t_port_config");
+INSERT INTO t_service_test_type(id,name,table_name) VALUES(NULL,"ssh","t_ssh_config");
 SET @ssh_test = LAST_INSERT_ID();
 INSERT INTO t_service_test_type(id,name,table_name) VALUES(NULL,"url","t_url_config");
 SET @url_test = LAST_INSERT_ID();
@@ -45,42 +45,42 @@ INSERT INTO t_service(id,name,owner) VALUES(NULL,"SDN Director","alert@somewhere
 SET @sdn_director_service = LAST_INSERT_ID();
 
 
--- Ping Configuration Details
-INSERT INTO t_ping_config(id,host) VALUES(NULL,'192.168.137.11');
-SET @sdn_director_ping_config = LAST_INSERT_ID();
 
 
 -- SSH Configuration Details
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(NULL,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid','^plumgrid start/running, process\\s+(\\d+)\n');
-SET @sdn_director_ssh_plumgrid_config = LAST_INSERT_ID();
 
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(NULL,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid-sal','^plumgrid-sal start/running, process\\s+(\\d+)\n');
-SET @sdn_director_ssh_plumgrid_sal_config = LAST_INSERT_ID();
 
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(NULL,'192.168.137.11','plumgrid','plumgrid','sudo status nginx','^nginx start/running, process\\s+(\\d+)\n');
-SET @sdn_director_ssh_nginx_config = LAST_INSERT_ID();
 
 --
 -- Define the Service Tests
 --
 
-INSERT INTO t_service_test(id,name,service_test_type_id,service_test_config_id) VALUES(NULL,'Check SDN Director host status',@ping_test,@sdn_director_ping_config);
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check SDN Director host status',@ping_test);
 SET @service_test_sdn_director_ping_host = LAST_INSERT_ID();
 
+-- Ping Configuration Details
+INSERT INTO t_ping_config(id,host) VALUES(@service_test_sdn_director_ping_host,'192.168.137.11');
+
 -- Check the status of the plumgrid process
-INSERT INTO t_service_test(id,name,service_test_type_id,service_test_config_id) VALUES(NULL,'Check plumgrid process status',@ssh_test,@sdn_director_ssh_plumgrid_config);
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check plumgrid process status',@ssh_test);
 SET @service_test_sdn_director_ssh_plumgrid = LAST_INSERT_ID();
 
+INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
+VALUES(@service_test_sdn_director_ssh_plumgrid,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid','^plumgrid start/running, process\\s+(\\d+)\n');
+
 -- Check the status of the plumgrid-sal process
-INSERT INTO t_service_test(id,name,service_test_type_id,service_test_config_id) VALUES(NULL,'Check plumgrid-sal process status',@ssh_test,@sdn_director_ssh_plumgrid_sal_config);
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check plumgrid-sal process status',@ssh_test);
 SET @service_test_sdn_director_ssh_plumgrid_sal = LAST_INSERT_ID();
 
+INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
+VALUES(@service_test_sdn_director_ssh_plumgrid_sal,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid-sal','^plumgrid-sal start/running, process\\s+(\\d+)\n');
+
 -- Check the status of the nginx process
-INSERT INTO t_service_test(id,name,service_test_type_id,service_test_config_id) VALUES(NULL,'Check nginx process status',@ssh_test,@sdn_director_ssh_nginx_config);
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check nginx process status',@ssh_test);
 SET @service_test_sdn_director_ssh_nginx = LAST_INSERT_ID();
+
+INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
+VALUES(@service_test_sdn_director_ssh_nginx,'192.168.137.11','plumgrid','plumgrid','sudo status nginx','^nginx start/running, process\\s+(\\d+)\n');
 
 --
 -- Define the Service Check
