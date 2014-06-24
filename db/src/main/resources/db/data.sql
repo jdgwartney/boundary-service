@@ -41,13 +41,18 @@ SET @url_test = LAST_INSERT_ID();
 -- Define the Services
 --
 
+--  ####  #####  #    #    #####  # #####  ######  ####  #####  ####  #####  
+-- #      #    # ##   #    #    # # #    # #      #    #   #   #    # #    # 
+--  ####  #    # # #  #    #    # # #    # #####  #        #   #    # #    # 
+--      # #    # #  # #    #    # # #####  #      #        #   #    # #####  
+-- #    # #    # #   ##    #    # # #   #  #      #    #   #   #    # #   #  
+--  ####  #####  #    #    #####  # #    # ######  ####    #    ####  #    # 
 INSERT INTO t_service(id,name,owner) VALUES(NULL,"SDN Director","alert@somewhere.com");
 SET @sdn_director_service = LAST_INSERT_ID();
 
 
+                                 
 
-
--- SSH Configuration Details
 
 
 
@@ -110,6 +115,18 @@ VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_ssh_plumgrid_
 INSERT INTO t_service_check_to_test(id,service_check_id,service_test_id)
 VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_ssh_nginx);
 
+--  ####  #####  #    #    #    # # 
+-- #      #    # ##   #    #    # # 
+--  ####  #    # # #  #    #    # # 
+--      # #    # #  # #    #    # # 
+-- #    # #    # #   ##    #    # # 
+--  ####  #####  #    #     ####  # 
+
+INSERT INTO t_service VALUES(NULL,"SDN UI","alert@somewhere.com");
+SET @sdn_ui_service = LAST_INSERT_ID();
+
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check SDN UI host status',@ping_test);
+SET @service_test_sdn_ui_ping_host = LAST_INSERT_ID();
 --
 -- List of services that do not have tests yet
 --
@@ -127,8 +144,6 @@ VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_ssh_nginx);
 -- INSERT INTO t_service VALUES(NULL,"SDN Gateway");
 -- SET @service_id = LAST_INSERT_ID();
 -- INSERT INTO t_service VALUES(NULL,"SDN LVM");
--- SET @service_id = LAST_INSERT_ID();
--- INSERT INTO t_service VALUES(NULL,"SDN UI");
 -- SET @service_id = LAST_INSERT_ID();
 -- INSERT INTO t_service VALUES(NULL,"Access Gateway");
 -- SET @service_id = LAST_INSERT_ID();
