@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet author="boundary" id="service-procedures-1" runOnChange="true">
+        <sql> DROP PROCEDURE IF EXISTS p_add_service;</sql>
+        <createProcedure>
+CREATE PROCEDURE p_add_service
+(
+ IN l_name VARCHAR(64),
+ IN l_owner VARCHAR(256)
+)
+BEGIN
+
+  INSERT INTO t_service
+  (
+     id
+    ,name
+    ,owner
+  )
+  VALUES
+  (
+     NULL
+    ,l_name
+    ,l_name
+  );
+
+END;
+       </createProcedure>
+  </changeSet>
+  <changeSet author="boundary" id="service-procedures-2" runOnChange="true">
+        <sql> DROP PROCEDURE IF EXISTS p_delete_service;</sql>
+        <createProcedure>
+CREATE PROCEDURE p_delete_service
+(
+  IN l_name VARCHAR(64)
+)
+BEGIN
+  DELETE FROM t_service
+  WHERE name = l_name;
+END;
+       </createProcedure>
+  </changeSet>
+</databaseChangeLog>
+

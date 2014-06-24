@@ -64,28 +64,28 @@ INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check SDN 
 SET @service_test_sdn_director_ping_host = LAST_INSERT_ID();
 
 -- Ping Configuration Details
-INSERT INTO t_ping_config(id,host) VALUES(@service_test_sdn_director_ping_host,'192.168.137.11');
+INSERT INTO t_ping_config(id,service_test_id,host) VALUES(NULL,@service_test_sdn_director_ping_host,'192.168.137.11');
 
 -- Check the status of the plumgrid process
 INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check plumgrid process status',@ssh_test);
 SET @service_test_sdn_director_ssh_plumgrid = LAST_INSERT_ID();
 
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(@service_test_sdn_director_ssh_plumgrid,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid','^plumgrid start/running, process\\s+(\\d+)\n');
+INSERT INTO t_ssh_config(id,service_test_id,host,user,password,command,expected_output)
+VALUES(NULL,@service_test_sdn_director_ssh_plumgrid,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid','^plumgrid start/running, process\\s+(\\d+)\n');
 
 -- Check the status of the plumgrid-sal process
 INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check plumgrid-sal process status',@ssh_test);
 SET @service_test_sdn_director_ssh_plumgrid_sal = LAST_INSERT_ID();
 
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(@service_test_sdn_director_ssh_plumgrid_sal,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid-sal','^plumgrid-sal start/running, process\\s+(\\d+)\n');
+INSERT INTO t_ssh_config(id,service_test_id,host,user,password,command,expected_output)
+VALUES(NULL,@service_test_sdn_director_ssh_plumgrid_sal,'192.168.137.11','plumgrid','plumgrid','sudo status plumgrid-sal','^plumgrid-sal start/running, process\\s+(\\d+)\n');
 
 -- Check the status of the nginx process
 INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check nginx process status',@ssh_test);
 SET @service_test_sdn_director_ssh_nginx = LAST_INSERT_ID();
 
-INSERT INTO t_ssh_config(id,host,user,password,command,expected_output)
-VALUES(@service_test_sdn_director_ssh_nginx,'192.168.137.11','plumgrid','plumgrid','sudo status nginx','^nginx start/running, process\\s+(\\d+)\n');
+INSERT INTO t_ssh_config(id,service_test_id,host,user,password,command,expected_output)
+VALUES(NULL,@service_test_sdn_director_ssh_nginx,'192.168.137.11','plumgrid','plumgrid','sudo status nginx','^nginx start/running, process\\s+(\\d+)\n');
 
 --
 -- Define the Service Check
