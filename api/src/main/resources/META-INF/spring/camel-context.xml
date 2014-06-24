@@ -10,7 +10,7 @@
        http://camel.apache.org/schema/spring
        http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-<bean id="service" class="com.boundary.sdk.service.ServiceRequest"/>
+<bean id="service" class="com.boundary.sdk.event.service.ServiceRequest"/>
 
 <bean id="mysql-data" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -19,10 +19,19 @@
 		<property name="password" value="boundary" />
 </bean>
 
+<bean id="service-enrich" class="com.boundary.sdk.event.service.Merge">
+</bean>
 
-<camel:camelContext xmlns="http://camel.apache.org/schema/spring">
-    
-    <route id="service-db" startupOrder="100">
+<bean id="process-results" class="com.boundary.sdk.event.service.HandleResults"/>
+
+
+<camelContext xmlns="http://camel.apache.org/schema/spring">
+
+<!-- 	<dataFormats>
+￼        <json id="json" library="Jackson"/>
+	</dataFormats>
+  -->   
+    <route id="reset-service-test" startupOrder="100">
       <from uri="jetty:http://localhost:8010/services"/>
       <process ref="service"/>
       <to uri="stream:out"/>
@@ -32,6 +41,8 @@
     	<from uri="direct:query-in"/>
     	<to uri="jdbc:mysql-data?outputType=SelectList"/>
     	<log message="${headers}"/>
+    	<log message="${body.class}"/>
+       	<bean ref="process-results" method="process"/>
     	<to uri="mock:query-out"/>
     	<marshal>
     		<camel:string/>
@@ -39,6 +50,33 @@
     	<to uri="stream:out"/>
     </route>
     
- </camel:camelContext>
+    <route id="enrich-route" startupOrder="225">
+    	<from uri="direct:enrich-start"/>
+    	<enrich uri="http://localhost:8020/services" strategyRef ="service-enrich"/>
+    	<to uri="stream:out"/>
+    	<log message="${body.class}"/>
+<!--     	<convertBodyTo type="java.util.ArrayList"/> -->
+		<to uri="mock:enrich-out"/>
+    </route>
+    
+    <route id="services-db" startupOrder="300">
+      <from uri="jetty:http://localhost:8020/services"/>
+      <setBody>
+      	<simple>select * from v_services</simple>
+      </setBody>
+
+      <to uri="jdbc:mysql-data?outputType=SelectList"/>
+<!--       <log message="${headers}"/>
+      <to uri="mock:query-out"/>
+      <to uri="stream:out"/> -->
+      <marshal>
+      	<json/>
+      </marshal>
+    </route>
+    
+
+    
+    
+ </camelContext>
 
 </beans>

@@ -1,4 +1,4 @@
-package com.boundary.sdk.service;
+package com.boundary.sdk.event.service;
 
 import javax.servlet.http.HttpServletRequest;
 
