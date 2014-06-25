@@ -4,12 +4,16 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
 
-        <changeSet author="dgwartney" id="services-1" runOnChange="true">
+	<include file="types.xml" relativeToChangelogFile="true" />
+	<include file="domains.xml" relativeToChangelogFile="true" />
+
+        <changeSet author="dgwartney" id="services-1" runOnChange="true" runAlways="true">
                 <comment>Contains exported DDL from MySQL Workbench</comment>
                 <sqlFile dbms="mysql" encoding="utf8" endDelimiter=";"
                         path="schema.sql" relativeToChangelogFile="true"
                         splitStatements="true" stripComments="true" />
         </changeSet>
+
         <changeSet author="dgwartney" id="services-2" runOnChange="true" runAlways="true">
                 <comment>Populate with test data</comment>
                 <sqlFile dbms="mysql" encoding="utf8" endDelimiter=";"
@@ -19,8 +23,6 @@
 
 
 
-	<include file="types.xml" relativeToChangelogFile="true" />
-	<include file="domains.xml" relativeToChangelogFile="true" />
 	
 	<include file="tables.xml" relativeToChangelogFile="true"/>
 
