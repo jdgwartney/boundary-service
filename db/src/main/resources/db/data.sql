@@ -138,10 +138,10 @@ INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'monitor.be
 SET @service_test_beta_scapp = LAST_INSERT_ID();
 
 -- Url Configuration Details
-INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body)
-VALUES(NULL,@service_test_beta_swisscloud,'http://monitor.beta.swisscloud.io/',200,'app is running');
-INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body)
-VALUES(NULL,@service_test_beta_scapp,'http://monitor.beta.scapp.io/',200,'app is running');
+INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body,response_ignore_body)
+VALUES(NULL,@service_test_beta_swisscloud,'http://monitor.beta.swisscloud.io/',200,'app is running',1);
+INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body,response_ignore_body)
+VALUES(NULL,@service_test_beta_scapp,'http://monitor.beta.scapp.io/',200,'app is running',1);
 
 -- Service Check
 INSERT INTO t_service_to_check(id,service_id,service_check_id)
