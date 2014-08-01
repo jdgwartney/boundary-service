@@ -82,6 +82,13 @@ SET @service_test_sdn_director_ssh_nginx = LAST_INSERT_ID();
 INSERT INTO t_ssh_config(id,service_test_id,host,user,password,command,expected_output)
 VALUES(NULL,@service_test_sdn_director_ssh_nginx,@ip_address,'plumgrid','plumgrid','sudo status nginx','^nginx start/running, process\\s+\\d+');
 
+-- Check port
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'Check port 8080 status',@port_test);
+SET @service_test_sdn_director_port_8080 = LAST_INSERT_ID();
+
+INSERT INTO t_port_config(id,service_test_id,host,port)
+VALUES(NULL,@service_test_sdn_director_port_8080,@ip_address,8080);
+
 --
 -- Define the Service Check
 --
@@ -108,6 +115,43 @@ VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_ssh_plumgrid_
 
 INSERT INTO t_service_check_to_test(id,service_check_id,service_test_id)
 VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_ssh_nginx);
+
+INSERT INTO t_service_check_to_test(id,service_check_id,service_test_id)
+VALUES(NULL,@service_check_sdn_director,@service_test_sdn_director_port_8080);
+
+--
+-- URL
+--
+
+INSERT INTO t_service(id,name,owner) VALUES(NULL,"Cloud Foundry","alert@somewhere.com");
+SET @cloud_foundry_service = LAST_INSERT_ID();
+
+INSERT INTO t_service_check(id,name,schedule_id) VALUES(NULL,"Cloud Foundry Availability",@schedule_every_minute);
+SET @service_check_cloud_foundry = LAST_INSERT_ID();
+
+-- http://monitor.beta.swisscloud.io/ 
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'monitor.beta.swisscloud.io',@url_test);
+SET @service_test_beta_swisscloud = LAST_INSERT_ID();
+
+-- http://monitor.beta.scapp.io/
+INSERT INTO t_service_test(id,name,service_test_type_id) VALUES(NULL,'monitor.beta.scapp.io',@url_test);
+SET @service_test_beta_scapp = LAST_INSERT_ID();
+
+-- Url Configuration Details
+INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body)
+VALUES(NULL,@service_test_beta_swisscloud,'http://monitor.beta.swisscloud.io/',200,'app is running');
+INSERT INTO t_url_config(id,service_test_id,url,response_code,response_body)
+VALUES(NULL,@service_test_beta_scapp,'http://monitor.beta.scapp.io/',200,'app is running');
+
+-- Service Check
+INSERT INTO t_service_to_check(id,service_id,service_check_id)
+VALUES(NULL,@cloud_foundry_service,@service_check_cloud_foundry);
+
+-- Relate Service Tests with Service Check
+INSERT INTO t_service_check_to_test(id,service_check_id,service_test_id)
+VALUES(NULL,@service_check_cloud_foundry,@service_test_beta_swisscloud);
+INSERT INTO t_service_check_to_test(id,service_check_id,service_test_id)
+VALUES(NULL,@service_check_cloud_foundry,@service_test_beta_scapp);
 
 --  ####  #####  #    #    #    # # 
 -- #      #    # ##   #    #    # # 
